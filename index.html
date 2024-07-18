@@ -6,67 +6,63 @@
     <title>Выбор условий перевода</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
             margin: 0;
+            padding: 20px;
         }
         .container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        img {
-            width: 50px;
-            height: auto;
-            margin-bottom: 20px;
+            max-width: 100%;
         }
         h1 {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 20px;
-            color: #333333;
+            color: #000000;
+            text-align: center;
+            font-weight: normal;
         }
         .transfer-form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
         }
         .form-group {
             display: flex;
             flex-direction: column;
-            text-align: left;
         }
         .form-group label {
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 5px;
-            color: #666666;
+            color: #8e8e93;
         }
         select, input[type="number"] {
             padding: 10px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
             font-size: 14px;
             width: 100%;
             box-sizing: border-box;
+            background-color: #f2f2f7;
         }
         .currency-input {
             display: flex;
             gap: 10px;
         }
+        .currency-input input {
+            flex-grow: 1;
+        }
+        .currency-input select {
+            width: auto;
+        }
         button {
-            background-color: #007bff;
+            background-color: #007aff;
             color: white;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #0056b3;
@@ -75,7 +71,6 @@
 </head>
 <body>
     <div class="container">
-        <img src="" alt="Иконка денег с крыльями">
         <h1>Подберите лучшие условия перевода</h1>
 
         <div class="transfer-form">
@@ -83,7 +78,6 @@
                 <label>Я отправляю из</label>
                 <select name="sending_country">
                     <option value="russia">Россия</option>
-                    <!-- Другие страны -->
                 </select>
             </div>
 
@@ -91,17 +85,15 @@
                 <label>Страна получателя</label>
                 <select name="receiving_country">
                     <option value="uzbekistan">Узбекистан</option>
-                    <!-- Другие страны -->
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Сумма перевода</label>
                 <div class="currency-input">
-                    <input type="number" name="amount">
+                    <input type="number" name="amount" placeholder="0">
                     <select name="currency">
                         <option value="RUB">RUB</option>
-                        <!-- Другие валюты -->
                     </select>
                 </div>
             </div>
