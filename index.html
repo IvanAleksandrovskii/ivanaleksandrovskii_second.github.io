@@ -121,10 +121,6 @@
                         console.log(`Welcome, ${initData.user.first_name}!`);
                     }
 
-                    tg.MainButton.setText("Submit Form").show().onClick(() => {
-                        submitForm();
-                    });
-
                     status = "WebApp initialized successfully. Version: " + tg.version;
                 } catch (error) {
                     status = "Error initializing WebApp: " + error.message;
@@ -137,7 +133,7 @@
         }
 
         function submitForm(event) {
-            if (event) event.preventDefault();
+            event.preventDefault();
 
             const formData = {
                 sending_country: document.getElementById('sending_country').value,
