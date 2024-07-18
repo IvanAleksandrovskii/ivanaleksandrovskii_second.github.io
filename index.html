@@ -74,65 +74,86 @@
     <div class="container">
         <h1>Подберите лучшие условия перевода</h1>
 
-        <div class="transfer-form">
+        <form class="transfer-form" onsubmit="submitForm(event)">
             <div class="form-group">
-                <label>Я отправляю из</label>
-                <select name="sending_country">
+                <label for="sending_country">Я отправляю из</label>
+                <select id="sending_country" name="sending_country">
                     <option value="russia">Россия</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Страна получателя</label>
-                <select name="receiving_country">
+                <label for="receiving_country">Страна получателя</label>
+                <select id="receiving_country" name="receiving_country">
                     <option value="uzbekistan">Узбекистан</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Сумма перевода</label>
+                <label for="amount">Сумма перевода</label>
                 <div class="currency-input">
-                    <input type="number" name="amount" placeholder="0">
-                    <select name="currency">
+                    <input type="number" id="amount" name="amount" placeholder="0" required>
+                    <select id="currency" name="currency">
                         <option value="RUB">RUB</option>
                     </select>
                 </div>
             </div>
 
-            <button type="submit" onclick="submitForm()">Подобрать</button>
-        </div>
+            <button type="submit">Подобрать</button>
+        </form>
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        let tg;
 
-        function initApp() {
-            tg.ready();
-            tg.expand();
+        function initWebApp() {
+            let status = "Initializing WebApp...";
+            tg = window.Telegram && window.Telegram.WebApp;
 
-            // Set the main button
-            tg.MainButton.setText("Подобрать").show().onClick(submitForm);
+            if (tg) {
+                try {
+                    tg.ready();
+                    tg.setHeaderColor('#007aff');
+                    tg.setBackgroundColor('#ffffff');
 
-            // Show back button
-            tg.BackButton.show().onClick(function() {
-                tg.close();
-            });
+                    const initData = tg.initDataUnsafe;
+                    if (initData && initData.user) {
+                        console.log(`Welcome, ${initData.user.first_name}!`);
+                    }
+
+                    tg.MainButton.setText("Submit Form").show().onClick(() => {
+                        submitForm();
+                    });
+
+                    status = "WebApp initialized successfully. Version: " + tg.version;
+                } catch (error) {
+                    status = "Error initializing WebApp: " + error.message;
+                }
+            } else {
+                status = "WebApp is not available. This might be a desktop environment.";
+            }
+
+            console.log("WebApp initialization status:", status);
         }
 
-        function submitForm() {
-            // Here you can add logic to handle form submission
-            console.log("Form submitted");
-            tg.sendData(JSON.stringify({
-                action: "submit_form",
-                sending_country: document.querySelector('select[name="sending_country"]').value,
-                receiving_country: document.querySelector('select[name="receiving_country"]').value,
-                amount: document.querySelector('input[name="amount"]').value,
-                currency: document.querySelector('select[name="currency"]').value
-            }));
+        function submitForm(event) {
+            if (event) event.preventDefault();
+
+            const formData = {
+                sending_country: document.getElementById('sending_country').value,
+                receiving_country: document.getElementById('receiving_country').value,
+                amount: document.getElementById('amount').value,
+                currency: document.getElementById('currency').value
+            };
+
+            console.log('Форма отправлена:', formData);
+
+            // Отправляем данные в бота
+            tg.sendData(JSON.stringify(formData));
         }
 
-        // Initialize the app when the page loads
-        window.addEventListener('load', initApp);
+        // Initialize the WebApp after the page loads
+        window.onload = initWebApp;
     </script>
 </body>
 </html>
