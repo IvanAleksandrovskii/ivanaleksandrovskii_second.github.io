@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор условий перевода</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -98,8 +99,40 @@
                 </div>
             </div>
 
-            <button type="submit">Подобрать</button>
+            <button type="submit" onclick="submitForm()">Подобрать</button>
         </div>
     </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+
+        function initApp() {
+            tg.ready();
+            tg.expand();
+
+            // Set the main button
+            tg.MainButton.setText("Подобрать").show().onClick(submitForm);
+
+            // Show back button
+            tg.BackButton.show().onClick(function() {
+                tg.close();
+            });
+        }
+
+        function submitForm() {
+            // Here you can add logic to handle form submission
+            console.log("Form submitted");
+            tg.sendData(JSON.stringify({
+                action: "submit_form",
+                sending_country: document.querySelector('select[name="sending_country"]').value,
+                receiving_country: document.querySelector('select[name="receiving_country"]').value,
+                amount: document.querySelector('input[name="amount"]').value,
+                currency: document.querySelector('select[name="currency"]').value
+            }));
+        }
+
+        // Initialize the app when the page loads
+        window.addEventListener('load', initApp);
+    </script>
 </body>
 </html>
