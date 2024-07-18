@@ -145,7 +145,11 @@
             console.log('Форма отправлена:', formData);
 
             // Отправляем данные в бота
-            tg.sendData(JSON.stringify(formData));
+            if (tg) {
+                tg.sendData(JSON.stringify(formData));
+            } else {
+                console.log('Telegram WebApp не инициализирован');
+            }
         }
 
         // Initialize the WebApp after the page loads
